@@ -1,0 +1,13 @@
+do
+$$
+declare r record;
+begin
+	for r in 
+			select table_name from information_schema.columns where table_schema = 'public' 
+			and table_name in (select table_name from information_schema.tables 
+			where table_type = 'BASE TABLE' and table_schema = 'public') and column_name = '' 
+	loop
+		execute 'update '|| r.table_name ||' set  where  in ()';
+	end loop;
+end;
+$$;
